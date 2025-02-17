@@ -1,0 +1,27 @@
+volumes:
+  mysql_vol:
+
+services:
+  mysql:
+    container_name: mysql_c
+    volumes:
+      - mysql_vol:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: denis
+    build:
+      context: ./mysql
+  nginx:
+    container_name: nginx_c
+    build:
+      context: ./nginx
+    ports:
+      - '80:80'
+      - '443:433'
+    depends_on:
+      - mysql
+  tomcat:
+    container_name: tomcat_c
+    build:
+      context: ./tomcat
+    ports:
+      - '8080:8080'
